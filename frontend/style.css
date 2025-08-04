@@ -1,0 +1,108 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Clean Blue-Purple Gradient */
+  background: linear-gradient(120deg, #74b9ff, #a29bfe);
+}
+
+/* Glass-like Card */
+.container {
+  width: 380px;
+  padding: 30px 25px;
+  text-align: center;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Title */
+.container h2 {
+  color: white;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* Subtitle */
+.subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* Inputs & Textarea */
+input, textarea {
+  width: 90%;
+  padding: 12px;
+  margin: 12px 0;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.85); /* Brighter white */
+  color: #333;
+  font-size: 14px;
+  transition: 0.3s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Focus Effect */
+input:focus, textarea:focus {
+  background: white;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+}
+
+/* Placeholder color */
+input::placeholder, textarea::placeholder {
+  color: #888;
+}
+
+/* Submit Button */
+button {
+  width: 95%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  color: white;
+  background: linear-gradient(90deg, #6c5ce7, #0984e3);
+  transition: 0.3s;
+}
+
+/* Button Hover */
+button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #00cec9, #6c5ce7);
+  box-shadow: 0 0 15px rgba(108, 92, 231, 0.8);
+}
+
+/* Success Message */
+#message {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #00ffab;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+#message.show {
+  opacity: 1;
+}
+

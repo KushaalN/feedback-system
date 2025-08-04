@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Feedback Form</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      font-family: 'Arial', sans-serif;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      width: 350px;
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    input, textarea, button {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    input:focus, textarea:focus {
+      border-color: #6a11cb;
+      box-shadow: 0 0 5px #6a11cb;
+      outline: none;
+    }
+    button {
+      background: #2575fc;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #6a11cb;
+      transform: scale(1.05);
+    }
+    #message {
+      margin-top: 10px;
+      font-weight: bold;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Feedback Form</h2>
+    <form id="feedbackForm">
+      <input type="text" id="name" placeholder="Your Name" required><br>
+      <input type="email" id="email" placeholder="Your Email" required><br>
+      <textarea id="feedback" placeholder="Your Feedback" required></textarea><br>
+      <input type="number" id="rating" placeholder="Rating (1-5)" min="1" max="5" required><br>
+      <button type="submit">Submit</button>
+    </form>
+    <p id="message"></p>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    // Redirect if not logged in
+    if (!localStorage.getItem("token")) {
+      window.location.href = "login.html";
+    }
+
+    document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const token = localStorage.getItem("token");
+      const msg = document.getElementById('message');
+      msg.style.display = "block";
+      msg.style.color = "blue";
+      msg.innerText = "Submitting...";
+
+      const feedbackData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        feedback: document.getElementById('feedback').value,
+        rating: document.getElementById('rating').value
+      };
+
+      try {
+        const res = await fetch('http://127.0.0.1:5000/feedback/submit', {  // ✅ fixed endpoint
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` 
+          },
+          body: JSON.stringify(feedbackData)
+        });
+
+        const data = await res.json();
+        console.log("Server response:", data);
+
+        if (res.ok) {
+          msg.style.color = "green";
+          msg.innerText = "Feedback submitted successfully!";
+          document.getElementById('feedbackForm').reset();
+        } else {
+          msg.style.color = "red";
+          msg.innerText = data.error || "Submission failed!";
+        }
+      } catch (error) {
+        msg.style.color = "red";
+        msg.innerText = "Server not reachable!";
+      }
+    });
+
+    function logout() {
+      localStorage.removeItem("token");
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>
